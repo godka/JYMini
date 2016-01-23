@@ -1062,7 +1062,7 @@ int JY_SetClip(int x1,int y1,int x2,int y2)
 	else{
 		SDL_Rect rect;
 		rect.x=(Sint16)x1;
-		rect.y=(Sint16)(g_ScreenH-y2);
+		rect.y=(Sint16)y1;
 		rect.w=(Uint16)(x2-x1);
 		rect.h=(Uint16)(y2-y1);
 
