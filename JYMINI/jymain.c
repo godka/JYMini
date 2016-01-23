@@ -501,7 +501,7 @@ int JY_Error(const char * fmt,...)
 		newtime = localtime(&t);
 		//__android_log_print(ANDROID_LOG_INFO, "jy", "%02d:%02d:%02d %s\n",newtime->tm_hour,newtime->tm_min,newtime->tm_sec,string);
 		fprintf(fp, "%02d:%02d:%02d %s\n", newtime->tm_hour, newtime->tm_min, newtime->tm_sec, string);
-		fflush(fp);
+		fclose(fp);
 	}
 	return 0;
 } 
