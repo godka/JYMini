@@ -2,6 +2,17 @@
 // 主程序
 // 本程序为游泳的鱼编写。
 // 版权所无，您可以以任何方式使用代码
+
+//if using the check of leak memory
+
+#define USING_LEAK_CHECK    1
+#ifndef _crtdbg_map_alloc
+#define _crtdbg_map_alloc
+#endif
+#include <stdlib.h>
+#if USING_LEAK_CHECK
+#include <crtdbg.h>
+#endif
 #include <stdio.h>
 #include <time.h>
 #include "jymain.h"
@@ -270,7 +281,6 @@ int main(int argc, char *argv [])
 
 	//关闭lua
 	lua_close(pL_main);
-
 	exit(0);
 }
 
