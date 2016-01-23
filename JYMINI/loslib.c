@@ -282,7 +282,6 @@ static int os_setlocale (lua_State *L) {
   lua_pushstring(L, setlocale(cat[op], l));
   return 1;
 }
-#define USING_LEAK_CHECK 1
 
 static int os_exit (lua_State *L) {
   int status;
@@ -293,17 +292,6 @@ static int os_exit (lua_State *L) {
   if (lua_toboolean(L, 2))
     lua_close(L);
 
-
-#if USING_LEAK_CHECK
-
-  printf("check memory leak ...\n");
-
-  _CrtDumpMemoryLeaks();
-
-  printf("check over.\n");
-
-  getchar();
-#endif
   if (L) exit(status);  /* 'if' to avoid warnings for unreachable 'return' */
   return 0;
 }

@@ -3,16 +3,6 @@
 // 本程序为游泳的鱼编写。
 // 版权所无，您可以以任何方式使用代码
 
-//if using the check of leak memory
-
-#define USING_LEAK_CHECK    1
-#ifndef _crtdbg_map_alloc
-#define _crtdbg_map_alloc
-#endif
-#include <stdlib.h>
-#if USING_LEAK_CHECK
-#include <crtdbg.h>
-#endif
 #include <stdio.h>
 #include <time.h>
 #include "jymain.h"
@@ -482,11 +472,13 @@ int JY_Debug(const char * fmt,...)
         return 0;
 
 	fp=fopen(_("debug.txt"),"a+t");
-	time(&t);
-    newtime=localtime(&t);
-//    __android_log_print(ANDROID_LOG_INFO, "jy", "%02d:%02d:%02d %s\r\n",newtime->tm_hour,newtime->tm_min,newtime->tm_sec,string);
-	fprintf(fp,"%02d:%02d:%02d %s\r\n",newtime->tm_hour,newtime->tm_min,newtime->tm_sec,string);
- 	fclose(fp);
+	if (fp){
+		time(&t);
+		newtime = localtime(&t);
+		//    __android_log_print(ANDROID_LOG_INFO, "jy", "%02d:%02d:%02d %s\r\n",newtime->tm_hour,newtime->tm_min,newtime->tm_sec,string);
+		fprintf(fp, "%02d:%02d:%02d %s\r\n", newtime->tm_hour, newtime->tm_min, newtime->tm_sec, string);
+		fclose(fp);
+	}
 	return 0;
 }
 // 调试函数
@@ -504,11 +496,13 @@ int JY_Error(const char * fmt,...)
 	vsnprintf(string, sizeof(string), fmt, argptr);
 	va_end(argptr);
 	fp=fopen(_("error.txt"),"a+t");
-	time(&t);
-    newtime=localtime(&t);
-    //__android_log_print(ANDROID_LOG_INFO, "jy", "%02d:%02d:%02d %s\n",newtime->tm_hour,newtime->tm_min,newtime->tm_sec,string);
-	fprintf(fp,"%02d:%02d:%02d %s\n",newtime->tm_hour,newtime->tm_min,newtime->tm_sec,string);
- 	fflush(fp);
+	if (fp){
+		time(&t);
+		newtime = localtime(&t);
+		//__android_log_print(ANDROID_LOG_INFO, "jy", "%02d:%02d:%02d %s\n",newtime->tm_hour,newtime->tm_min,newtime->tm_sec,string);
+		fprintf(fp, "%02d:%02d:%02d %s\n", newtime->tm_hour, newtime->tm_min, newtime->tm_sec, string);
+		fflush(fp);
+	}
 	return 0;
 } 
 
