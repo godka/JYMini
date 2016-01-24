@@ -770,10 +770,15 @@ int JY_ShowSurface(int flag)
 	return 0;
 }
 
+//#define niba
 //—” ±x∫¡√Î
 int JY_Delay(int x)
 {
-    SDL_Delay(x);
+#ifdef niba
+	SDL_Delay(0);
+#else
+	SDL_Delay(x);
+#endif
     return 0;
 }
 

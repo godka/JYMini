@@ -117,10 +117,16 @@ static int os_getenv (lua_State *L) {
   lua_pushstring(L, getenv(luaL_checkstring(L, 1)));  /* if NULL push nil */
   return 1;
 }
-
-
+//#define niba
+#ifdef niba
+	int t;
+#endif
 static int os_clock (lua_State *L) {
+#ifdef niba
+	lua_pushnumber(L, t++);
+#else
   lua_pushnumber(L, ((lua_Number)clock())/(lua_Number)CLOCKS_PER_SEC);
+#endif
   return 1;
 }
 
