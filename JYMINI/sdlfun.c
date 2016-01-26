@@ -476,6 +476,7 @@ void SetRendererColor(int color)
 // 初始化游戏数据
 int InitGame(void)
 {
+	SDL_Rect rect = {0};
 	char str[255];
 	int i,x;
 	float zoom = (float)g_ScreenW/(float)g_KeyScale;
@@ -483,13 +484,12 @@ int InitGame(void)
 	//虚拟按键图
 	char buttons[][5] = { "D1","D2","D3","D4","C1","C2","A","B","F1","F2","F3","F4" };
 
-
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
 		printf("Couldn't initialize SDL video subsystem: %s\n", SDL_GetError());
 //		__android_log_print(ANDROID_LOG_ERROR, "jy", "Couldn't initialize SDL video subsystem: %s\n", SDL_GetError());
 		exit(1);
 	  }
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 0);
+	//SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 0);
 	//
 	/*
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); //设置GL版本的
@@ -498,15 +498,27 @@ int InitGame(void)
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);//设置深度缓存大小的，另外如果讲24改成32你会发现性能会下降很多很多很多很多的。
     */
     //
+
+	SDL_GetDisplayBounds(0, &rect);
 	JY_Debug("InitGame start(%d,%d)",g_ScreenW,g_ScreenH);
-	g_window = SDL_CreateWindow("JY_LLK",
-						SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-						g_ScreenW, g_ScreenH,
-						SDL_WINDOW_OPENGL);
+	if (rect.h < 800 ){
+		g_window = SDL_CreateWindow("JY_LLK",
+			50, 50,
+			g_ScreenW, g_ScreenH,
+			0);
+	}
+	else{
+		g_window = SDL_CreateWindow("JY_LLK",
+			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			g_ScreenW, g_ScreenH,
+			0);
+	}
 	if(g_window==NULL)
 		JY_Error("Cannot set video mode");
 	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_PRESENTVSYNC);
-	puts(SDL_GetError());
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+	//SDL_RenderSetViewport(g_renderer, &rect);
+	//puts(SDL_GetError());
 	g_screenTex = SDL_CreateTexture(g_renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_TARGET,g_ScreenW,g_ScreenH);
 	SDL_SetTextureBlendMode(g_screenTex, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderTarget(g_renderer,g_screenTex);
