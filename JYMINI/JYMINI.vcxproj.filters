@@ -279,7 +279,7 @@
   <ItemGroup>
     <Library Include="bass.lib" />
     <Library Include="bassmidi.lib" />
-    <Library Include="libfreetype-6.lib" />
     <Library Include="SDL2main.lib" />
+    <Library Include="freetype2412.lib" />
   </ItemGroup>
 </Project>

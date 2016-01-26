@@ -1060,11 +1060,12 @@ int JY_GetKey(int *EventType, int *keyPress, int *x, int *y)
 	return *keyPress;
 }
 
-int JY_GetMouse(int *x,int *y)
+int JY_GetMouse(int *x, int *y)
 {
 	Uint32 mousemask;
-	SDL_PumpEvents();
-	mousemask=SDL_GetMouseState(x, y);
+	SDL_PollEvent(NULL);
+	mousemask = SDL_GetMouseState(x, y);
+	printf("%d,%d\n", *x, *y);
 	return mousemask;
 
 }
