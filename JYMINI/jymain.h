@@ -11,7 +11,7 @@
 //#include "smpeg.h"
 #include "bass.h"
 //#include "bassmidi.h"
-#undef strncpy
+
 
 #include "lua.h"
 #include "lualib.h"
