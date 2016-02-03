@@ -838,7 +838,7 @@ int Byte_savefile(lua_State *pL)
 	fclose(fp);
 	return 0;
 }
-
+/*
 int Byte_get8(lua_State *pL)
 {
 	char *p=(char *)lua_touserdata(pL,1);
@@ -952,9 +952,218 @@ int Byte_setstr(lua_State *pL)
  
 	return 1;
 }
-
+*/
 int Config_GetPath(lua_State *pL)
 {
 	lua_pushstring(pL,JY_CurrentPath);
 	return 1;
+}
+//luafun.c
+
+int Byte_get8(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	char v;
+	JYdecrypt(p + start, (char *) &v, 1);
+	lua_pushnumber(pL, v);
+	return 1;
+}
+
+int Byte_set8(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	char tmp = (char) lua_tonumber(pL, 3);
+	JYdecrypt((char *) &tmp, p + start, 1);
+	return 0;
+}
+int Byte_get16(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	short v;
+	JYdecrypt(p + start, (char *) &v, 2);
+	lua_pushnumber(pL, v);
+	return 1;
+}
+
+int Byte_set16(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	short tmp = (short) lua_tonumber(pL, 3);
+	JYdecrypt((char *) &tmp, p + start, 2);
+	return 0;
+}
+
+int Byte_getu16(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	unsigned short v;
+	JYdecrypt(p + start, (char *) &v, 2);
+	lua_pushnumber(pL, v);
+	return 1;
+}
+
+int Byte_setu16(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	unsigned short tmp = (unsigned short) lua_tonumber(pL, 3);
+	JYencrypt((char *) &tmp, p + start, 2);
+	return 0;
+
+}
+
+int Byte_get32(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	int v;
+	JYdecrypt(p + start, (char*) &v, 4);
+	lua_pushnumber(pL, v);
+	return 1;
+}
+
+int Byte_set32(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	int tmp = (int) lua_tonumber(pL, 3);
+	JYencrypt((char *) &tmp, p + start, 4);
+	return 0;
+}
+
+int Byte_get64(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	long v;
+	JYdecrypt(p + start, (char*) &v, 8);
+	lua_pushnumber(pL, v);
+	return 1;
+}
+
+int Byte_set64(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	long tmp = (long) lua_tonumber(pL, 3);
+	JYencrypt((char *) &tmp, p + start, 8);
+	return 0;
+}
+
+int Byte_getstr(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	int length = (int) lua_tonumber(pL, 3);
+	char *s = (char*) malloc(length + 1);
+	JYdecrypt(p + start, s, length);
+	s[length] = '\0';
+	lua_pushstring(pL, s);
+	SafeFree(s);
+	return 1;
+}
+
+int Byte_setstr(lua_State *pL)
+{
+	short *p = (short *) lua_touserdata(pL, 1);
+	int start = (int) lua_tonumber(pL, 2);
+	int length = (int) lua_tonumber(pL, 3);
+	const char *s = lua_tostring(pL, 4);
+	char *q = (char *) malloc(length);
+	int i;
+	int l = (int) strlen(s);
+	for (i = 0; i<length; i++)
+		q[i] = 0;
+	JYencrypt(q, p + start, length);
+	if (l>length) l = length;
+	JYencrypt(s, p + start, l);
+
+	lua_pushstring(pL, s);
+	SafeFree(q);
+
+	return 1;
+}
+
+int Byte_RSHash(lua_State *pL)
+{
+	char *p = (char *) lua_touserdata(pL, 1);
+	int length = (int) lua_tonumber(pL, 2);
+	int b = 378551;
+	int a = 63689;
+	int i;
+	long hash = 0;
+	for (i = 0; i < length; i++)
+	{
+		hash = hash*a + *(char*) (p + i);
+		a = a*b;
+	}
+	lua_pushnumber(pL, hash);
+	return 1;
+}
+int Byte_BKDHash(lua_State *pL)
+{
+	char *p = (char *) lua_touserdata(pL, 1);
+	int length = (int) lua_tonumber(pL, 2);
+	unsigned int seed = 1313; // 31 131 1313 13131 131313 etc..
+	int i;
+	unsigned int hash = 0;
+	for (i = 0; i < length; i++)
+	{
+		hash = hash * seed + *(unsigned char*) (p + i);
+		hash = hash & 0x7FFFFFFF;
+	}
+	lua_pushnumber(pL, hash);
+	return 1;
+}
+
+void JYencrypt(char *s, short *d, int length)
+{
+	int i;
+	short n;
+	char tmp;
+	char seed[32] =
+	{
+		(char) 9, (char) 137, (char) 78, (char) 87,
+		(char) 139, (char) 219, (char) 52, (char) 98,
+		(char) 239, (char) 109, (char) 129, (char) 235,
+		(char) 7, (char) 179, (char) 176, (char) 248,
+		(char) 4, (char) 32, (char) 223, (char) 18,
+		(char) 79, (char) 68, (char) 97, (char) 30,
+		(char) 49, (char) 77, (char) 70, (char) 3,
+		(char) 40, (char) 100, (char) 101, (char) 189,
+	};
+	for (i = 0; i < length; i++)
+	{
+		n = (short) (rand() % 32);
+		tmp = *(s + i) ^ seed[n];
+		n += (rand() % 8) << 15;
+		*(d + i) = (((short) (tmp)) << 5) | n;
+	}
+//	return 0;
+}
+void JYdecrypt(short *s, char *d, int length)
+{
+	char seed[32] =
+	{
+		(char) 9, (char) 137, (char) 78, (char) 87,
+		(char) 139, (char) 219, (char) 52, (char) 98,
+		(char) 239, (char) 109, (char) 129, (char) 235,
+		(char) 7, (char) 179, (char) 176, (char) 248,
+		(char) 4, (char) 32, (char) 223, (char) 18,
+		(char) 79, (char) 68, (char) 97, (char) 30,
+		(char) 49, (char) 77, (char) 70, (char) 3,
+		(char) 40, (char) 100, (char) 101, (char) 189,
+	};
+	int i;
+	short n;
+	for (i = 0; i < length; i++)
+	{
+		n = *(s + i);
+		*(d + i) = ((char) ((n & 8160) >> 5)) ^ (seed[n & 31]);
+	}
 }

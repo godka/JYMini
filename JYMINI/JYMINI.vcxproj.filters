@@ -150,6 +150,12 @@
     <ClInclude Include="lua.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="charset.c">
@@ -281,5 +287,15 @@
     <Library Include="bassmidi.lib" />
     <Library Include="SDL2main.lib" />
     <Library Include="freetype2412.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="JYMINI.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="017-lower-rho.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -11,6 +11,8 @@ extern "C" {
 #endif
 // luafun.c
 
+	void JYencrypt(char *s, short *d, int length);
+	void JYdecrypt(short *s, char *d, int length);
 
  int HAPI_Debug(lua_State *pL);
 

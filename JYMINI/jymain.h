@@ -54,6 +54,7 @@ extern "C" {
 // jymain.c
 
 
+	int Byte_BKDHash(lua_State *pL);
 int Lua_Main(lua_State *pL_main);
 
 int Lua_Config(lua_State *pL,const char *filename);

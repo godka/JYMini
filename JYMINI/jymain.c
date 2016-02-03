@@ -171,6 +171,7 @@ static const struct luaL_Reg bytelib [] = {
       {"set32", Byte_set32},
       {"getstr", Byte_getstr},
       {"setstr", Byte_setstr},
+	  { "hash", Byte_BKDHash }, //Byte_RSHash
 	  {NULL, NULL}
 };
 

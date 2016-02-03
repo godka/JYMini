@@ -125,6 +125,8 @@
     <ClInclude Include="pnglibconf.h" />
     <ClInclude Include="pngpriv.h" />
     <ClInclude Include="pngstruct.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="charset.c" />
@@ -174,6 +176,12 @@
     <Library Include="bassmidi.lib" />
     <Library Include="freetype2412.lib" />
     <Library Include="SDL2main.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="JYMINI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="017-lower-rho.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
