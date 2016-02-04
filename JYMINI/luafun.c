@@ -838,127 +838,12 @@ int Byte_savefile(lua_State *pL)
 	fclose(fp);
 	return 0;
 }
-/*
-int Byte_get8(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-
-	short v=*(char*)(p+start);
-	lua_pushnumber(pL,v);
-	return 1;
-}
-
-int Byte_set8(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-	char v=(char)lua_tonumber(pL,3);
-    *(char*)(p+start)=v;
-	return 0;
-}
-int Byte_get16(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-
-	short v=*(short*)(p+start);
-	lua_pushnumber(pL,v);
-	return 1;
-}
-
-int Byte_set16(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-	short v=(short)lua_tonumber(pL,3);
-    *(short*)(p+start)=v;
-	return 0;
-}
-
-int Byte_getu16(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-
-	unsigned short v=*(unsigned short*)(p+start);
-	lua_pushnumber(pL,v);
-	return 1;
-}
-
-int Byte_setu16(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-	unsigned short v=(unsigned short)lua_tonumber(pL,3);
-    *(unsigned short*)(p+start)=v;
-	return 0;
- 
-}
-
-int Byte_get32(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-
-	int v=*(int*)(p+start);
-	lua_pushnumber(pL,v);
-	return 1;
-}
-
-int Byte_set32(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-	int v=(int)lua_tonumber(pL,3);
-    *(int*)(p+start)=v;
-	return 0;
-}
-
-int Byte_getstr(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-	int length=(int)lua_tonumber(pL,3);
-	char *s=(char*)malloc(length+1);
-	int i;
-	for(i=0;i<length;i++)
-		s[i]=p[start+i];
-
-	s[length]='\0';
-    lua_pushstring(pL,s);
-	SafeFree(s);
-	return 1;
-}
-
-int Byte_setstr(lua_State *pL)
-{
-	char *p=(char *)lua_touserdata(pL,1);
-	int start=(int)lua_tonumber(pL,2);
-	int length=(int)lua_tonumber(pL,3);
-	const char *s=lua_tostring(pL,4);
-	int i;
-	int l=strlen(s);
-	for(i=0;i<length;i++)
-		p[start+i]=0;
-	
-	if(l>length) l=length;
-
-	for(i=0;i<l;i++)
-		p[start+i]=s[i];
-
- 
-    lua_pushstring(pL,s);
- 
-	return 1;
-}
-*/
 int Config_GetPath(lua_State *pL)
 {
 	lua_pushstring(pL,JY_CurrentPath);
 	return 1;
 }
-//luafun.c
+
 
 int Byte_get8(lua_State *pL)
 {
@@ -975,7 +860,7 @@ int Byte_set8(lua_State *pL)
 	short *p = (short *) lua_touserdata(pL, 1);
 	int start = (int) lua_tonumber(pL, 2);
 	char tmp = (char) lua_tonumber(pL, 3);
-	JYdecrypt((char *) &tmp, p + start, 1);
+	JYencrypt((char *)&tmp, p + start, 1);
 	return 0;
 }
 int Byte_get16(lua_State *pL)
@@ -993,7 +878,7 @@ int Byte_set16(lua_State *pL)
 	short *p = (short *) lua_touserdata(pL, 1);
 	int start = (int) lua_tonumber(pL, 2);
 	short tmp = (short) lua_tonumber(pL, 3);
-	JYdecrypt((char *) &tmp, p + start, 2);
+	JYencrypt((char *)&tmp, p + start, 2);
 	return 0;
 }
 
@@ -1012,7 +897,7 @@ int Byte_setu16(lua_State *pL)
 	short *p = (short *) lua_touserdata(pL, 1);
 	int start = (int) lua_tonumber(pL, 2);
 	unsigned short tmp = (unsigned short) lua_tonumber(pL, 3);
-	JYencrypt((char *) &tmp, p + start, 2);
+	JYencrypt((char *)&tmp, p + start, 2);
 	return 0;
 
 }
@@ -1032,7 +917,7 @@ int Byte_set32(lua_State *pL)
 	short *p = (short *) lua_touserdata(pL, 1);
 	int start = (int) lua_tonumber(pL, 2);
 	int tmp = (int) lua_tonumber(pL, 3);
-	JYencrypt((char *) &tmp, p + start, 4);
+	JYencrypt((char *)&tmp, p + start, 4);
 	return 0;
 }
 
@@ -1051,7 +936,7 @@ int Byte_set64(lua_State *pL)
 	short *p = (short *) lua_touserdata(pL, 1);
 	int start = (int) lua_tonumber(pL, 2);
 	long tmp = (long) lua_tonumber(pL, 3);
-	JYencrypt((char *) &tmp, p + start, 8);
+	JYencrypt((char *)&tmp, p + start, 8);
 	return 0;
 }
 

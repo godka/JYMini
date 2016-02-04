@@ -149,32 +149,29 @@ static const struct luaL_Reg jylib [] = {
       {"LoadPNGPath",HAPI_LoadPNGPath},
 		{"LoadPNG",HAPI_LoadPNG},
 	  {"GetPNGXY",HAPI_GetPNGXY},
-
-	  {"3DBox",HAPI_3DBox},
-
+	  
       {NULL, NULL}
     };
  
- 
-
-static const struct luaL_Reg bytelib [] = {
-      {"create", Byte_create},
-      {"loadfile", Byte_loadfile},
-      {"savefile", Byte_savefile},
-      {"get8", Byte_get8},
-      {"set8", Byte_set8},
-      {"get16", Byte_get16},
-      {"set16", Byte_set16},
-      {"getu16", Byte_getu16},
-      {"setu16", Byte_setu16},
-      {"get32", Byte_get32},
-      {"set32", Byte_set32},
-      {"getstr", Byte_getstr},
-      {"setstr", Byte_setstr},
-	  { "hash", Byte_BKDHash }, //Byte_RSHash
-	  {NULL, NULL}
+static const struct luaL_Reg bytelib[] = {
+	{ "create", Byte_create },
+	{ "loadfile", Byte_loadfile },
+	{ "savefile", Byte_savefile },
+	{ "get8", Byte_get8 },
+	{ "set8", Byte_set8 },
+	{ "get16", Byte_get16 },
+	{ "set16", Byte_set16 },
+	{ "getu16", Byte_getu16 },
+	{ "setu16", Byte_setu16 },
+	{ "get32", Byte_get32 },
+	{ "set32", Byte_set32 },
+	{ "get64", Byte_get64 },
+	{ "set64", Byte_set64 },
+	{ "getstr", Byte_getstr },
+	{ "setstr", Byte_setstr },
+	{ "hash", Byte_BKDHash }, //Byte_RSHash
+	{ NULL, NULL }
 };
-
 static const struct luaL_Reg configLib [] = {
 
 		{"GetPath", Config_GetPath},

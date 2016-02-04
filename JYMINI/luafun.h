@@ -108,8 +108,6 @@ int HAPI_ScreenHeight(lua_State *pL);				//屏幕高度
 int HAPI_LoadPNGPath(lua_State *pL);				//读取PNG图片路径
 int HAPI_LoadPNG(lua_State *pL);				//按图片读取PNG
 int HAPI_GetPNGXY(lua_State *pL);				//获取图片的大小和偏移
-
-int HAPI_3DBox(lua_State *pL);
 // 二进制数组函数
 
 /*  lua 调用形式：(注意，位置都是从0开始
@@ -139,8 +137,12 @@ int HAPI_3DBox(lua_State *pL);
   int Byte_setu16(lua_State *pL);
   int Byte_get32(lua_State *pL);
   int Byte_set32(lua_State *pL);
+  int Byte_get64(lua_State *pL);
+  int Byte_set64(lua_State *pL);
   int Byte_getstr(lua_State *pL);
   int Byte_setstr(lua_State *pL);
+  int Byte_RSHash(lua_State *pL);
+  int Byte_BKDHash(lua_State *pL);
  
 
 

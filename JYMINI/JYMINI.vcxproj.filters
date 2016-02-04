@@ -297,5 +297,8 @@
     <Image Include="017-lower-rho.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="C:\Users\Administrator\Pictures\cang.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
