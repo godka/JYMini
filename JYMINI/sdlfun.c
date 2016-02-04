@@ -515,7 +515,7 @@ int InitGame(void)
 	}
 	if(g_window==NULL)
 		JY_Error("Cannot set video mode");
-	g_renderer = SDL_CreateRenderer(g_window, 2, SDL_RENDERER_PRESENTVSYNC);
+	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_PRESENTVSYNC);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 	//SDL_RenderSetViewport(g_renderer, &rect);
 	//puts(SDL_GetError());
