@@ -125,7 +125,6 @@
     <ClInclude Include="pnglibconf.h" />
     <ClInclude Include="pngpriv.h" />
     <ClInclude Include="pngstruct.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>

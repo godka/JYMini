@@ -479,7 +479,9 @@ int InitGame(void)
 	SDL_Rect rect = {0};
 	char str[255];
 	int i,x;
-	float zoom = (float)g_ScreenW/(float)g_KeyScale;
+	float zoom = 0.0;
+	if (g_KeyScale)
+		zoom = (float) g_ScreenW / (float) g_KeyScale;
 
 	//ÐéÄâ°´¼üÍ¼
 	char buttons[][5] = { "D1","D2","D3","D4","C1","C2","A","B","F1","F2","F3","F4" };
@@ -501,13 +503,17 @@ int InitGame(void)
 
 	SDL_GetDisplayBounds(0, &rect);
 	JY_Debug("InitGame start(%d,%d)",g_ScreenW,g_ScreenH);
-	if (rect.h < 800 ){
+	if (rect.h < g_ScreenH ){
+		device_h = rect.h - 100;
+		device_w = g_ScreenW * device_h / g_ScreenH;
 		g_window = SDL_CreateWindow("JY_LLK",
-			50, 50,
-			g_ScreenW, g_ScreenH,
+			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			device_w, device_h,
 			0);
 	}
 	else{
+		device_w = g_ScreenW;
+		device_h = g_ScreenH;
 		g_window = SDL_CreateWindow("JY_LLK",
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			g_ScreenW, g_ScreenH,
@@ -898,20 +904,27 @@ int JY_GetKey(int *EventType, int *keyPress, int *x, int *y)
 			break;
 		case SDL_MOUSEMOTION:
 			*EventType = 2;
-			*x = event.motion.x;
-			*y = event.motion.y;
+			SDL_GetMouseState(x, y);
+			*x = *x * g_ScreenW / device_w;
+			*y = *y * g_ScreenH / device_h;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			*EventType = 3;
 			*keyPress = event.button.button;//1×ó¼ü2ÖÐ3ÓÒ4¹öÂÖÉÏ5¹öÂÖÏÂ
-			*x = event.motion.x;
-			*y = event.motion.y;
+			SDL_GetMouseState(x, y);
+			*x = *x * g_ScreenW / device_w;
+			*y = *y * g_ScreenH / device_h;
+			//*x = event.motion.x;
+			//*y = event.motion.y;
 			break;
 		case SDL_MOUSEBUTTONUP:
 			*EventType = 4;
 			*keyPress = event.button.button;//1×ó¼ü2ÖÐ3ÓÒ4¹öÂÖÉÏ5¹öÂÖÏÂ
-			*x = event.motion.x;
-			*y = event.motion.y;
+			SDL_GetMouseState(x, y);
+			*x = *x * g_ScreenW / device_w;
+			*y = *y * g_ScreenH / device_h;
+			//*x = event.motion.x;
+			//*y = event.motion.y;
 			break;
 		default:
 			break;
@@ -925,7 +938,9 @@ int JY_GetMouse(int *x, int *y)
 	Uint32 mousemask;
 	SDL_PollEvent(NULL);
 	mousemask = SDL_GetMouseState(x, y);
-	printf("%d,%d\n", *x, *y);
+	*x = *x * g_ScreenW / device_w;
+	*y = *y * g_ScreenH / device_h;
+	//printf("%d,%d\n", *x, *y);
 	return mousemask;
 
 }

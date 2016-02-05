@@ -30,25 +30,31 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="luaconf.h">
+    <ClInclude Include="bass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="luafun.h">
+    <ClInclude Include="bassmidi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lualib.h">
+    <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lundump.h">
+    <ClInclude Include="ft2build.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lvm.h">
+    <ClInclude Include="ftoption.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lzio.h">
+    <ClInclude Include="jymain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="miniz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="png.h">
@@ -70,24 +76,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pngstruct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bassmidi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ft2build.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ftoption.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jymain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lapi.h">
@@ -112,9 +100,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lgc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="llex.h">
@@ -150,10 +135,22 @@
     <ClInclude Include="lua.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="luaconf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h">
+    <ClInclude Include="luafun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lualib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lundump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lvm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lzio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

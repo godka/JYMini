@@ -343,11 +343,11 @@ int Lua_Config(lua_State *pL, const char *filename)
 
 	if (getfield(pL, "Width") != 0){
 		g_ScreenW = getfield(pL, "Width");
-		device_w = g_ScreenW;
+		//device_w = g_ScreenW;
 	}
 	if (getfield(pL, "Height") != 0){
 		g_ScreenH = getfield(pL, "Height");
-		device_h = g_ScreenH;
+		//device_h = g_ScreenH;
 	}
 	g_ScreenBpp = getfield(pL, "bpp");
 	g_FullScreen = getfield(pL, "FullScreen");
