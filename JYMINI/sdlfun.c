@@ -2,13 +2,14 @@
 #include "jymain.h"
 #include <math.h>
 //static Mix_Music *currentMusic=NULL;         //播放音乐数据，由于同时只播放一个，用一个变量
+#ifndef WIN32
 static HSTREAM currentMusic = 0;
 
 #define WAVNUM 5
 
 //static Mix_Chunk *WavChunk[WAVNUM];        //播放音效数据，可以同时播放几个，因此用数组
 static HSAMPLE WavChunk[WAVNUM];        //播放音效数据，可以同时播放几个，因此用数组
-
+#endif
 //static BASS_MIDI_FONT midfonts;
 
 
@@ -209,7 +210,9 @@ void JY_AdjustVolume(int iDirectory)
    }
    //g_SoundVolume = g_MusicVolume;
    //Mix_VolumeMusic(g_MusicVolume);
+#ifndef WIN32
    BASS_SetVolume((float)(g_MusicVolume / 100.0));
+#endif
 }
 
 int getKeyPressByMouseEvent(const SDL_Event *lpEvent)
@@ -390,6 +393,8 @@ int InitSDL(void)
 		{
 			so = 44100;
 		}
+
+#ifndef WIN32
 		if (!BASS_Init(-1, so, 0, 0, NULL)) {
 			JY_Error("Can't initialize device");
 			g_EnableSound=0;
@@ -400,6 +405,7 @@ int InitSDL(void)
 	    for(i=0;i<WAVNUM;i++)
 	         WavChunk[i]=0;
 
+#endif
 	    SDL_SetEventFilter(NULL,KeyFilter);
 
 		//if(g_MP3 != 1)
@@ -428,6 +434,7 @@ int ExitSDL(void)
 
 	StopMIDI();
 
+#ifndef WIN32
 	//if(midfonts.font)
 	//	BASS_MIDI_FontFree(midfonts.font);
 
@@ -439,7 +446,7 @@ int ExitSDL(void)
 	}
 
 	BASS_Free();
-
+#endif
 	/*
 	for(i=0;i<WAVNUM;i++){
 			if(WavChunk[i]){
@@ -521,7 +528,7 @@ int InitGame(void)
 	}
 	if(g_window==NULL)
 		JY_Error("Cannot set video mode");
-	g_renderer = SDL_CreateRenderer(g_window, 3, SDL_RENDERER_PRESENTVSYNC);
+	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_PRESENTVSYNC);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 	//SDL_RenderSetViewport(g_renderer, &rect);
 	//puts(SDL_GetError());
@@ -703,6 +710,8 @@ int JY_GetTime()
 //播放音乐
 int JY_PlayMIDI(const char *filename)
 {
+
+#ifndef WIN32
 	static char currentfile[255]="\0";
 	
 
@@ -757,7 +766,7 @@ int JY_PlayMIDI(const char *filename)
 	Mix_PlayMusic(currentMusic, -1);
 */
     strcpy(currentfile,filename);
-
+#endif
 
 	return 0;
 }
@@ -766,13 +775,14 @@ int JY_PlayMIDI(const char *filename)
 int StopMIDI()
 {
 
+#ifndef WIN32
     if(currentMusic){
 		BASS_ChannelStop(currentMusic);
 		BASS_StreamFree(currentMusic);
 		currentMusic=0;
 		
 	}
-
+#endif
 	/*
 	if(currentMusic!=NULL){
 		Mix_HaltMusic();
@@ -784,10 +794,12 @@ int StopMIDI()
 
 int PausedMIDI()
 {
+#ifndef WIN32
 	if(currentMusic){
 		BASS_ChannelStop(currentMusic);
 
 	}
+#endif
 	/*
 	if(currentMusic){
 			Mix_HaltMusic();
@@ -801,11 +813,12 @@ int PausedMIDI()
 }
 int ResumeMIDI()
 {
-
+#ifndef WIN32
 	if(currentMusic)
 	{
 		BASS_ChannelPlay(currentMusic, FALSE);
 	}
+#endif
 	return 0;
 }
 
@@ -813,7 +826,9 @@ int ResumeMIDI()
 //播放音效
 int JY_PlayWAV(const char *filename)
 {
-
+#ifdef WIN32
+	sndPlaySoundA(filename, 1);
+#else
 	HCHANNEL ch;
   if(g_EnableSound==0)
 		return 1;    
@@ -840,7 +855,7 @@ int JY_PlayWAV(const char *filename)
 	else{
 		JY_Error("Open wav file %s failed!",filename);
 	}
-
+#endif
 /*
 	if(g_EnableSound==0)
 			return 1;

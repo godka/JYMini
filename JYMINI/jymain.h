@@ -9,7 +9,12 @@
 #include "SDL2/SDL_image.h"
 //#include "SDL_mixer.h"
 //#include "smpeg.h"
-#include "bass.h"
+#ifndef WIN32
+#	include "bass.h"
+#else
+#	include <windows.h>
+#	include <MMSystem.h>
+#endif
 //#include "bassmidi.h"
 
 

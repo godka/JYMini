@@ -27,7 +27,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120_xp</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -85,8 +85,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bass.h" />
-    <ClInclude Include="bassmidi.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="ft2build.h" />
     <ClInclude Include="ftoption.h" />
@@ -170,7 +168,6 @@
     <ClCompile Include="SDL_ttf.c" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="bass.lib" />
     <Library Include="freetype2412.lib" />
     <Library Include="libpng16.lib" />
     <Library Include="SDL2main.lib" />
