@@ -504,7 +504,7 @@ int InitGame(void)
 	SDL_GetDisplayBounds(0, &rect);
 	JY_Debug("InitGame start(%d,%d)",g_ScreenW,g_ScreenH);
 	if (rect.h < g_ScreenH ){
-		device_h = rect.h - 100;
+		device_h = rect.h - 80;
 		device_w = g_ScreenW * device_h / g_ScreenH;
 		g_window = SDL_CreateWindow("JY_LLK",
 			SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
@@ -622,6 +622,8 @@ int JY_LoadPicture(const char* str,int x,int y, int percent)
 //ÏÔÊ¾±íÃæ
 int JY_ShowSurface(int flag)
 {
+	int w, h;
+	SDL_GetWindowSize(g_window, &w, &h);
 	if(flag == 0)
 	{
 		int i;
@@ -633,16 +635,11 @@ int JY_ShowSurface(int flag)
 			}
 		}
 		//JY_ShowSlow(30,0);
-		SDL_SetTextureColorMod(g_screenTex,255, 255, 255);
+		//SDL_SetTextureColorMod(g_screenTex,255, 255, 255);
 	}
-	else
-	{
-
-
-	}
-
+	SDL_Rect rect = { 0, 0, w, h };
 	SDL_SetRenderTarget(g_renderer,NULL);
-	SDL_RenderCopy(g_renderer, g_screenTex, NULL, NULL);
+	SDL_RenderCopy(g_renderer, g_screenTex, NULL, &rect);
 	SDL_RenderPresent(g_renderer);
 	SDL_SetRenderTarget(g_renderer,g_screenTex);
 	return 0;
@@ -872,6 +869,7 @@ int JY_PlayWAV(const char *filename)
 
 int JY_GetKey(int *EventType, int *keyPress, int *x, int *y)
 {
+	int w, h;
 	SDL_Event event;
 //	double scalew, scaleh;
 	*EventType = -1;
@@ -895,6 +893,22 @@ int JY_GetKey(int *EventType, int *keyPress, int *x, int *y)
 							lua_pushnumber(pL_main,event.resize.h);
 							lua_pcall(pL_main,2,0,0);
 							break;*/
+		case SDL_WINDOWEVENT:
+			switch (event.window.event)
+			{
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+				SDL_GetWindowSize(g_window, &w, &h);
+				//printf("%d %d\n", event.window.data1, event.window.data2);
+				g_ScreenW = w;
+				g_ScreenH = h;
+			//	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_PRESENTVSYNC);
+			//	g_screenTex = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, g_ScreenW, g_ScreenH);
+			//	SDL_SetTextureBlendMode(g_screenTex, SDL_BLENDMODE_BLEND);
+				break;
+			default:
+				break;
+			}
+			break;
 		case SDL_QUIT:
 			*EventType = 0;
 			break;

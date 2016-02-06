@@ -140,7 +140,9 @@ int HAPI_LoadSoundConfig(lua_State *pL)
 {
 	g_MusicVolume=(int)lua_tonumber(pL,1);
 	g_SoundVolume=(int)lua_tonumber(pL,2);
+#ifndef WIN32
 	BASS_SetVolume((float)(g_MusicVolume / 100.0));
+#endif
 	return 0;
 }
 

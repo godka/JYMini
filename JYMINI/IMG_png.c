@@ -25,7 +25,7 @@
 
 #if !defined(__APPLE__) || defined(SDL_IMAGE_USE_COMMON_BACKEND)
 #define  LOAD_PNG 
-#define LOAD_PNG_DYNAMIC "libpng16-16.dll"
+#define LOAD_PNG_DYNAMIC "dlls/libpng16-16.dll"
 #ifdef LOAD_PNG
 
 /*=============================================================================

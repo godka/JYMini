@@ -278,7 +278,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="bass.lib" />
-    <Library Include="bassmidi.lib" />
     <Library Include="SDL2main.lib" />
     <Library Include="freetype2412.lib" />
   </ItemGroup>
