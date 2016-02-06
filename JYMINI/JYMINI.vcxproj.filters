@@ -280,6 +280,8 @@
     <Library Include="bass.lib" />
     <Library Include="SDL2main.lib" />
     <Library Include="freetype2412.lib" />
+    <Library Include="libpng16.lib" />
+    <Library Include="zlib.lib" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="JYMINI.rc">

@@ -521,7 +521,7 @@ int InitGame(void)
 	}
 	if(g_window==NULL)
 		JY_Error("Cannot set video mode");
-	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_PRESENTVSYNC);
+	g_renderer = SDL_CreateRenderer(g_window, 3, SDL_RENDERER_PRESENTVSYNC);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 	//SDL_RenderSetViewport(g_renderer, &rect);
 	//puts(SDL_GetError());
@@ -893,14 +893,19 @@ int JY_GetKey(int *EventType, int *keyPress, int *x, int *y)
 							lua_pushnumber(pL_main,event.resize.h);
 							lua_pcall(pL_main,2,0,0);
 							break;*/
+		//case SDL_QUIT:
+		//	exit(0);
+		//	break;
 		case SDL_WINDOWEVENT:
 			switch (event.window.event)
 			{
+
 			case SDL_WINDOWEVENT_SIZE_CHANGED:
-				SDL_GetWindowSize(g_window, &w, &h);
+				//SDL_GetWindowSize(g_window, &w, &h);
 				//printf("%d %d\n", event.window.data1, event.window.data2);
-				g_ScreenW = w;
-				g_ScreenH = h;
+				SDL_RenderSetViewport(g_renderer, NULL );  
+				g_ScreenW = event.window.data1;
+				g_ScreenH = event.window.data2;
 			//	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_PRESENTVSYNC);
 			//	g_screenTex = SDL_CreateTexture(g_renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, g_ScreenW, g_ScreenH);
 			//	SDL_SetTextureBlendMode(g_screenTex, SDL_BLENDMODE_BLEND);
@@ -910,6 +915,8 @@ int JY_GetKey(int *EventType, int *keyPress, int *x, int *y)
 			}
 			break;
 		case SDL_QUIT:
+		//	SDL_MessageBoxData msg = { 0 };
+		//	SDL_messag
 			*EventType = 0;
 			break;
 		case SDL_KEYDOWN:
