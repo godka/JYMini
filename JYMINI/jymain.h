@@ -14,6 +14,7 @@
 #else
 #	include <windows.h>
 #	include <MMSystem.h>
+#   include <time.h>
 #endif
 //#include "bassmidi.h"
 

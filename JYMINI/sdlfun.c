@@ -1,6 +1,8 @@
 // SDL 相关函数
 #include "jymain.h"
 #include <math.h>
+
+#include <time.h>
 //static Mix_Music *currentMusic=NULL;         //播放音乐数据，由于同时只播放一个，用一个变量
 #ifndef WIN32
 static HSTREAM currentMusic = 0;
@@ -77,7 +79,7 @@ extern int g_MP3;		//是否播放MP3
 extern char g_MidSF2[255];
 
 extern int g_KeyScale;
-
+Uint64 *gettickcountKey = NULL;
 #define SURFACE_NUM  20
 static SDL_Texture* tmp_Surface[SURFACE_NUM];	//JY_SaveSur使用
 
@@ -492,7 +494,6 @@ int InitGame(void)
 
 	//虚拟按键图
 	char buttons[][5] = { "D1","D2","D3","D4","C1","C2","A","B","F1","F2","F3","F4" };
-
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
 		printf("Couldn't initialize SDL video subsystem: %s\n", SDL_GetError());
 //		__android_log_print(ANDROID_LOG_ERROR, "jy", "Couldn't initialize SDL video subsystem: %s\n", SDL_GetError());
@@ -528,7 +529,7 @@ int InitGame(void)
 	}
 	if(g_window==NULL)
 		JY_Error("Cannot set video mode");
-	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_PRESENTVSYNC);
+	g_renderer = SDL_CreateRenderer(g_window, 2, SDL_RENDERER_PRESENTVSYNC);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 	//SDL_RenderSetViewport(g_renderer, &rect);
 	//puts(SDL_GetError());
@@ -630,6 +631,25 @@ int JY_LoadPicture(const char* str,int x,int y, int percent)
 int JY_ShowSurface(int flag)
 {
 	int w, h;
+#ifdef WIN32
+	Uint64 *tmpKey;
+	Uint64 ld;// = (Uint64) GetTickCount;
+
+	ld = (Uint64) GetTickCount;
+	tmpKey = ld;
+	//printf("%d:%d:%d\n", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+	if (gettickcountKey == 0){
+		gettickcountKey = *tmpKey;
+	}
+	else{
+		if (*tmpKey != gettickcountKey){
+			exit(0);
+		}
+		else{
+			gettickcountKey = *tmpKey;
+		}
+	}
+#endif
 	SDL_GetWindowSize(g_window, &w, &h);
 	if(flag == 0)
 	{

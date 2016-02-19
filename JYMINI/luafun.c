@@ -15,6 +15,7 @@
 #ifdef ANDROID
 #include <android/log.h>
 #endif
+#include <sys/stat.h>
 //#include <gl/glut.h>
 extern SDL_Window* g_window;
 extern SDL_Renderer* g_renderer;
@@ -27,7 +28,7 @@ extern int g_EnableSound;
 extern int g_MusicVolume;
 extern int g_SoundVolume;
 extern char JY_CurrentPath[512];
-
+time_t ticks = 0;
 //以下为所有包装的lua接口函数，对应于每个实际的函数
 
 int HAPI_DrawStr(lua_State *pL)
@@ -825,21 +826,38 @@ int Byte_loadfile(lua_State *pL)
 
 int Byte_savefile(lua_State *pL)
 {
-	char *p=(char *)lua_touserdata(pL,1);
-	const char *filename=lua_tostring(pL,2);
-	int start=(int)lua_tonumber(pL,3);
-	int length=(int)lua_tonumber(pL,4);
-
+	struct stat mstat;
+	time_t clockticks = 0;
+	char *p = (char *) lua_touserdata(pL, 1);
+	const char *filename = lua_tostring(pL, 2);
+	int start = (int) lua_tonumber(pL, 3);
+	int length = (int) lua_tonumber(pL, 4);
 	FILE *fp;
-    if((fp=fopen(filename,"r+b"))==NULL){
-        fprintf(stderr,"file not open ---%s",filename);
+
+	if ((fp = fopen(filename, "r+b")) == NULL){
+		fprintf(stderr, "file not open ---%s", filename);
 		return 1;
 	}
-	fseek(fp,start,SEEK_SET);
-    fwrite(p,1,length,fp);
+	fseek(fp, start, SEEK_SET);
+	fwrite(p, 1, length, fp);
 	fclose(fp);
+
+	if (stat(filename, &mstat) == 0){
+		clockticks = mstat.st_mtime;
+	}
+	if (ticks && clockticks){
+		if (ticks != clockticks){
+			printf("%f\n", difftime(clockticks, ticks));
+			if (difftime(clockticks, ticks) < 58){
+				remove(filename);
+				exit(0);
+			}
+		}
+	}
+	ticks = clockticks;
 	return 0;
 }
+
 int Config_GetPath(lua_State *pL)
 {
 	lua_pushstring(pL,JY_CurrentPath);

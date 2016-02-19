@@ -12,7 +12,6 @@ SDL_Window* g_window;
 SDL_Renderer* g_renderer;
 SDL_Texture* g_screenTex;
 
-
 int g_ScreenW=480 ;          // фад╩©М╦ъ
 int g_ScreenH=800 ;
 int device_w=480 ;
