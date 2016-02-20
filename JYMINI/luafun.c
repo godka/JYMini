@@ -824,10 +824,17 @@ int Byte_loadfile(lua_State *pL)
 	return 0;
 }
 
+int Byte_getfiletime(lua_State *pL){
+	time_t clockticks = 0;
+	const char *filename = lua_tostring(pL, 1);
+	struct stat mstat;
+	if (stat(filename, &mstat) == 0){
+		clockticks = mstat.st_mtime;
+	}
+	lua_pushnumber(pL, (unsigned long)clockticks);
+}
 int Byte_savefile(lua_State *pL)
 {
-	struct stat mstat;
-	time_t clockticks = 0;
 	char *p = (char *) lua_touserdata(pL, 1);
 	const char *filename = lua_tostring(pL, 2);
 	int start = (int) lua_tonumber(pL, 3);
@@ -841,20 +848,6 @@ int Byte_savefile(lua_State *pL)
 	fseek(fp, start, SEEK_SET);
 	fwrite(p, 1, length, fp);
 	fclose(fp);
-
-	if (stat(filename, &mstat) == 0){
-		clockticks = mstat.st_mtime;
-	}
-	if (ticks && clockticks){
-		if (ticks != clockticks){
-			printf("%f\n", difftime(clockticks, ticks));
-			if (difftime(clockticks, ticks) < 58){
-				remove(filename);
-				exit(0);
-			}
-		}
-	}
-	ticks = clockticks;
 	return 0;
 }
 

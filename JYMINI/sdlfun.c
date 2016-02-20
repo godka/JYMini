@@ -529,7 +529,7 @@ int InitGame(void)
 	}
 	if(g_window==NULL)
 		JY_Error("Cannot set video mode");
-	g_renderer = SDL_CreateRenderer(g_window, 2, SDL_RENDERER_PRESENTVSYNC);
+	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_PRESENTVSYNC);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 	//SDL_RenderSetViewport(g_renderer, &rect);
 	//puts(SDL_GetError());
@@ -635,7 +635,7 @@ int JY_ShowSurface(int flag)
 	Uint64 *tmpKey;
 	Uint64 ld;// = (Uint64) GetTickCount;
 
-	ld = (Uint64) GetTickCount;
+	ld = (Uint64) localtime;
 	tmpKey = ld;
 	//printf("%d:%d:%d\n", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
 	if (gettickcountKey == 0){

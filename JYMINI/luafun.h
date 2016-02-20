@@ -129,6 +129,7 @@ int HAPI_GetPNGXY(lua_State *pL);				//获取图片的大小和偏移
   int Byte_release(lua_State *pL);
   int Byte_loadfile(lua_State *pL);
   int Byte_savefile(lua_State *pL);
+  int Byte_getfiletime(lua_State *pL);
   int Byte_get8(lua_State *pL);
   int Byte_set8(lua_State *pL);
   int Byte_get16(lua_State *pL);
