@@ -635,7 +635,7 @@ int JY_ShowSurface(int flag)
 	Uint64 *tmpKey;
 	Uint64 ld;// = (Uint64) GetTickCount;
 
-	ld = (Uint64) localtime;
+	ld = (Uint64) GetTickCount;
 	tmpKey = ld;
 	//printf("%d:%d:%d\n", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
 	if (gettickcountKey == 0){
